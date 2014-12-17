@@ -14,48 +14,58 @@
 </head>
 <body x-ng-clock>
 
-	<div x-ng-include="'modules/zgeneral/sidebarLeft-m.html'" 
+	<div x-ng-include="'modules/zgeneral/sideBarLeft-m.html'" 
 		class="sidebar sidebar-left" 
-		x-ui-track-as-search-parm="true">
+		ui-track-as-search-param="true">
 	</div>
-	<div x-ng-include="'modules/zgeneral/sidebarRight-m.html'" 
+	<div x-ng-include="'modules/zgeneral/sideBarRight-m.html'" 
 		class="sidebar sidebar-right">
 	</div>
 	
-<div class="app">
+	<div class="app">
+		
+		<div class="navbar navbar-app navbar-absolute-top">
+			<div class="navbar-brand navbar-brand-center" x-ui-yield-to="title">
+	        	Seetu
+	        </div>
+	        <div class="btn-group pull-left">
+          		<div x-ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
+            		<i class="fa fa-bars"></i> Menu
+          		</div>
+        	</div>
+        	<div class="btn-group pull-right" ui-yield-to="navbarAction">
+          		<div x-ui-toggle="uiSidebarRight" class="btn">
+            		<i class="fa fa-bell"></i> Messages
+          		</div>
+          	</div>
+		</div>
 	
-	<div class="navbar navbar-app navbar-absolute-top">
-		<div class="navbar-brand navbar-brand-center" x-ui-yield-to="title">
-        	Seetu
-        </div>
+		<div class="app-body" x-ng-class="{loading: loading}">
+			<div x-ng-show="loading" class="app-content-loading">
+	        	<i class="fa fa-spinner fa-spin loading-spinner"></i>
+	        </div>
+	        <div class="app-content">
+	        	<x-ng-view></x-ng-view>
+	        </div>
+		</div>
+		
+		<div class="navbar navbar-app navbar-absolute-bottom">
+			<div class="text-center">
+				<a href="index.html" class="btn btn-navbar">
+	   				<i class="fa fa-home fa-navbar"></i>
+	   			</a>	
+	   			|
+	   			<a href="_ah/admin/datastore" target="blank" class="btn btn-navbar">
+	   				Datastore
+	   			</a>
+	   			|
+	   			<a href="init/createAll" target="blank" class="btn btn-navbar">
+	   				Reset
+	   			</a>
+	   		</div>
+		</div>
+		
 	</div>
-
-	<div class="app-body" x-ng-class="{loading: loading}">
-		<div x-ng-show="loading" class="app-content-loading">
-        	<i class="fa fa-spinner fa-spin loading-spinner"></i>
-        </div>
-        <div class="app-content">
-        	<x-ng-view></x-ng-view>
-        </div>
-	</div>
-	
-	<div class="navbar navbar-app navbar-absolute-bottom">
-		<div class="text-center">
-			<a href="index.html" class="btn btn-navbar">
-   				<i class="fa fa-home fa-navbar"></i>
-   			</a>	
-   			|
-   			<a href="_ah/admin/datastore" target="blank" class="btn btn-navbar">
-   				Datastore
-   			</a>
-   			|
-   			<a href="init/createAll" target="blank" class="btn btn-navbar">
-   				Reset
-   			</a>
-   		</div>
-	</div>
-	
-</div>
 
 <script type="text/javascript"
 	src="assets/lib/lodash.min.js"></script>

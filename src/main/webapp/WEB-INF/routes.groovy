@@ -20,7 +20,7 @@ get '/init/createUsers', 	forward : '/io/vteial/seetu/web/init/createUsers.groov
 // security
 get  '/sessions/t',         forward : '/io/vteial/seetu/web/session/t.groovy'
 post '/sessions/login',     forward : '/io/vteial/seetu/web/session/login.groovy'
-post '/sessions/logout',    forward : '/io/vteial/seetu/web/session/logout.groovy'
+get  '/sessions/logout',    forward : '/io/vteial/seetu/web/session/logout.groovy'
 
 // item
 //get    '/items',          forward : '/io/vteial/seetu/web/item/itemList.groovy'
@@ -29,8 +29,8 @@ post '/sessions/logout',    forward : '/io/vteial/seetu/web/session/logout.groov
 //put    '/items/item/@id', forward : '/io/vteial/seetu/web/item/itemUpdate.groovy?id=@id'
 //delete '/items/item/@id', forward : '/io/vteial/seetu/web/item/itemDelete.groovy?id=@id'
 
-// item
-get    '/users',          forward : '/io/vteial/seetu/web/user/userList.groovy'
+// user
+get      '/users',          forward : '/io/vteial/seetu/web/user/userList.groovy'
 //get    '/items/item/@id', forward : '/io/vteial/seetu/web/item/itemFindById.groovy?id=@id'
 //post   '/items/item',     forward : '/io/vteial/seetu/web/item/itemCreate.groovy'
 //put    '/items/item/@id', forward : '/io/vteial/seetu/web/item/itemUpdate.groovy?id=@id'
