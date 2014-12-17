@@ -1,0 +1,45 @@
+<div x-ui-content-for="title">
+	<span>{{viewName}}</span>
+</div>
+
+<div class="scrollable">
+	<div class="scrollable-content section">
+		<div class="panel panel-default">
+		<div class="panel-heading">
+			&nbsp;{{message}}	
+		</div>
+		<div class="panel-body">
+			<form>
+			<fieldset>
+				<div class="form-group">
+	          		<label>User Id</label>
+	          		<input class="form-control" type="text" placeholder="User Id"
+	          			x-ng-model="user.id">
+				</div>
+		        <div class="form-group">
+	    			<label>Password</label>
+	          		<input class="form-control" type="text" placeholder="Password"
+	          			x-ng-model="user.password">
+				</div>
+				<div class="form-group">
+	          		<label>Remember Me</label>
+	          		<x-ui-switch x-ng-model="rememberMe"></x-ui-switch>
+	        	</div>
+	    	</fieldset>	
+	    	<hr/>
+	   		<button class="btn btn-primary btn-block" x-ng-click="signin()">
+	      		Login
+	    	</button>
+			<div x-ui-content-for="navbarAction">
+	      		<a class="btn" x-ng-click="signin()">Login</a>
+	    	</div>    	
+			</form>
+		</div>
+		</div>
+	</div>
+</div>
+<!-- 
+		<div bs-panel x-ng-hide="message === null">
+			{{message}}	
+		</div>
+-->
