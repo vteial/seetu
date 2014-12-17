@@ -1,6 +1,6 @@
-function settingsController($rootScope, $scope, $log) {
+function settingController($rootScope, $scope, $log) {
 	$rootScope.viewName = 'Settings';
 
-	$log.debug('settingsController...');
+	$log.debug('settingController...');
 }
-appControllers.controller('settingsController', settingsController);
+appControllers.controller('settingController', settingController);

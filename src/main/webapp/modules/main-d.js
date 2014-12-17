@@ -12,10 +12,10 @@ appControllers.controller('rootController', rootController);
 
 var dependents = [ 'ngRoute', 'ngSanitize' ];
 dependents.push('ngStorage');
-// dependents.push('green.inputmask4angular');
+dependents.push('green.inputmask4angular');
 // dependents.push('ngInputDate');
 // dependents.push('ngNotify');
-// dependents.push('ui.select');
+dependents.push('ui.select');
 dependents.push('ui.bootstrap');
 dependents.push('app.filters');
 dependents.push('app.directives');
@@ -23,9 +23,9 @@ dependents.push('app.services');
 dependents.push('app.controllers');
 var app = angular.module('app', dependents);
 
-// app.config(function(uiSelectConfig) {
-// uiSelectConfig.theme = 'select2';
-// });
+app.config(function(uiSelectConfig) {
+	uiSelectConfig.theme = 'select2';
+});
 
 app.config(function($httpProvider) {
 	$httpProvider.interceptors.push('generalHttpInterceptor');
@@ -44,6 +44,30 @@ app.config(function($routeProvider, $locationProvider) {
 	$routeProvider.when('/index', {
 		templateUrl : 'modules/home/index-d.html',
 		controller : 'indexController'
+	});
+
+	$routeProvider.when('/signin', {
+		templateUrl : 'modules/session/login-d.html',
+		controller : 'loginController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/signout', {
+		templateUrl : 'modules/session/logout-d.html',
+		controller : 'logoutController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/settings', {
+		templateUrl : 'modules/session/setting-d.html',
+		controller : 'settingController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/home', {
+		templateUrl : 'modules/home/index-d.html',
+		controller : 'indexController',
+		reloadOnSearch : false
 	});
 
 	$routeProvider.otherwise({

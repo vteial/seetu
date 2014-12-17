@@ -15,17 +15,12 @@
 		</ul>
 		<ul class="nav navbar-nav" x-ng-show="isLoggedIn">
 			<li><a href="#/users"> Users</a></li>
-			<li><a href="#/customers"> Customers</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right" x-ng-hide="isLoggedIn">
 			<li><a href="#/signin"><i class="fa fa-sign-in"></i> Login</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right" x-ng-show="isLoggedIn">
-			<li>
-				<a href="#/notifications">
-					<i class="fa fa-bell"></i> &nbsp;
-				</a>
-			</li>
+			<li><a href="#/notifications"><i class="fa fa-bell"></i> &nbsp;</a></li>
 			<li><a href="#/settings"><i class="fa fa-cog"></i> Settings</a></li>
 			<li><a href="#/signout"><i class="fa fa-sign-out"></i> Logout</a></li>
 		</ul>

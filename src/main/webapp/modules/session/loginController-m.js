@@ -30,7 +30,6 @@ function loginController($rootScope, $scope, $log, $location, $sessionStorage,
 				$location.path(locPath);
 			}
 		})
-
 	}
 	$scope.signin = signin;
 
