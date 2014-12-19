@@ -26,11 +26,18 @@ targetCompatibility = compatibilityVersion
 
 appengine {
 	httpPort = 8181
-
+	disableUpdateCheck = true
 	appcfg {
 		email = 'vteial@gmail.com'
 		noCookies = true
 		oauth2 = true
+
+		logs {
+			severity = 1
+			outputFile = file('log.txt')
+		}
+
+		app { id = 'myseetu' }
 	}
 }
 
@@ -47,6 +54,12 @@ dependencies {
 
 	compile "com.google.appengine:appengine-api-1.0-sdk:$gaeVersion",
 			"com.google.appengine:appengine-api-labs:$gaeVersion"
+
+	// http://localhost:8181/_ah/gaelyk-datastore-viewer/browse
+	compile 'org.gaelyk:gaelyk-datastore-viewer:2.0'
+
+	// http://localhost:8181/_ah/gaelyk-console/
+	compile 'org.gaelyk:gaelyk-console:2.0'
 
 	compile 'org.gaelyk:gaelyk:2.1.2'
 

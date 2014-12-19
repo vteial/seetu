@@ -10,10 +10,15 @@ try {
 	def response = (new URL(s)).get()
 	println response.text
 
-	//	s = serverPrefix + '/init/createItems'
+	//	s = serverPrefix + '/init/createCustomers'
 	//	println s
 	//	response = (new URL(s)).get()
 	//	println response.text
+
+	s = serverPrefix + '/init/createItems'
+	println s
+	response = (new URL(s)).get()
+	println response.text
 
 	println 'Created all...'
 }

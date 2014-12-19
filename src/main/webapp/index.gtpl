@@ -40,7 +40,9 @@
 </section>
 
 <br/><br/><br/>
-
+<%
+	if(true) {
+%>
 <footer>
 	<div class="text-center">
 		<small>
@@ -50,11 +52,14 @@
    			<b>|</b>
    			<a class="navbar-link"  href="_ah/gaelyk-console/">Gaelyk Console</a>
    			<b>|</b>
-   			<a  class="navbar-link" href="init/reset">Reset</a>
+   			<a  class="navbar-link" href="init/reset">Reset b</a>
 		</small>
 	</div>
 </footer>
 
+<%	
+}
+%>
 
 <script type="text/javascript"
 	src="assets/lib/lodash.min.js"></script>

@@ -59,9 +59,12 @@
 		email endpoint -->
 	<security-constraint>
 		<web-resource-collection>
+			<url-pattern>/init/*</url-pattern>
+			<url-pattern>/cron/*</url-pattern>
 			<url-pattern>/_ah/mail/*</url-pattern>
 			<url-pattern>/_ah/xmpp/message/chat/</url-pattern>
-			<url-pattern>/cron/*</url-pattern>
+			<url-pattern>/_ah/gaelyk-datastore-viewer/browse</url-pattern>
+			<url-pattern>/_ah/gaelyk-console/</url-pattern>
 		</web-resource-collection> 
 		<auth-constraint>
 			<role-name>admin</role-name>

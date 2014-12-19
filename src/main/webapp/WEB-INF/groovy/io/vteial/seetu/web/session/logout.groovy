@@ -1,12 +1,12 @@
 package io.vteial.seetu.web.session;
 
-import io.vteial.seetu.dto.MessageDto
+import io.vteial.seetu.dto.ResponseDto
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
 session.removeAttribute('user')
 
+ResponseDto rm = new ResponseDto(message : 'Successfully logged out...')
+
 response.contentType = 'application/json'
-ObjectMapper mapper = new ObjectMapper();
-MessageDto messageDto = new MessageDto(message : 'Successfully logged out...')
-mapper.writeValue(out, messageDto)
+jsonObjectMapper.writeValue(out, rm)

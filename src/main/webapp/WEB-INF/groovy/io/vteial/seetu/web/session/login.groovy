@@ -1,26 +1,23 @@
 package io.vteial.seetu.web.session
 
-import io.vteial.seetu.dto.MessageDto
+import io.vteial.seetu.dto.ResponseDto
 import io.vteial.seetu.model.User
 
-import com.fasterxml.jackson.databind.ObjectMapper
-
 response.contentType = 'application/json'
-ObjectMapper mapper = new ObjectMapper();
 
-MessageDto messageDto = new MessageDto(message : 'Invalid User Id or Password')
+ResponseDto rm = new ResponseDto(message : 'Invalid User Id or Password')
 
-User userA = mapper.readValue(request.reader.text, User.class);
+User userA = jsonObjectMapper.readValue(request.reader.text, User.class);
 User userE = User.get(userA.id)
 if(!userE) {
-	mapper.writeValue(out, messageDto)
+	jsonObjectMapper.writeValue(out, rm)
 	return
 }
 if(app.env.name == 'Production' && userE.password != userA.password) {
-	mapper.writeValue(out, messageDto)
+	jsonObjectMapper.writeValue(out, rm)
 	return
 }
 
 session.user = userE
 
-mapper.writeValue(out, userE)
+jsonObjectMapper.writeValue(out, userE)
