@@ -7,6 +7,7 @@ import io.vteial.seetu.model.ItemTransaction
 import io.vteial.seetu.model.User
 import io.vteial.seetu.model.constants.AccountTransactionType
 import io.vteial.seetu.model.constants.UserStatus
+import io.vteial.seetu.util.Helper
 
 try {
 	println 'reset started...'
@@ -49,8 +50,11 @@ try {
 
 	float subscriptionAmount = item.value / item.totalSubscribers
 
-	List<Double> winningBidAmounts = [4600, 5100, 5300, 5600, 5800, 5900]
-	//List<Double> winningBidAmounts = [4600]
+	//List<Double> winningBidAmounts = [4600, 5100, 5300, 5600, 5800, 5900]
+	List<Double> winningBidAmounts = [4600]
+
+	Date today = new Date()
+	today.clearTime()
 
 	for(int j = 0; j < winningBidAmounts.size(); j++) {
 
@@ -63,11 +67,12 @@ try {
 			accTran.accountId = item.subscriberIds[i]
 			accountService.addTransaction(sessionUser, accTran)
 		}
-
+		today += 30
 		ItemTransaction itemTran = new ItemTransaction()
 		itemTran.itemId = item.id
 		itemTran.winningBidAmount = winningBidAmounts[j]
 		itemTran.winnerAccountId = item.subscriberIds[j]
+		itemTran.date = today
 		itemService.addTransaction(sessionUser, itemTran)
 	}
 

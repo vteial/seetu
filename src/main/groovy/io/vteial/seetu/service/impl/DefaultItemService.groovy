@@ -57,7 +57,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 	@Override
 	public void addTransaction(User sessionUser, ItemTransaction itemTran) {
-		//log.info 'Pre  : ' + itemTran.toString()
+		log.info 'Pre  : ' + itemTran.date.toString()
 
 		itemTran.item = Item.get(itemTran.itemId)
 
@@ -85,7 +85,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 		itemTran.prePersist(sessionUser.id)
 		itemTran.save()
 
-		//log.info 'Post : ' + itemTran.toString()
+		log.info 'Post : ' + itemTran.toString()
 
 		this.postTransaction(sessionUser, itemTran)
 	}
@@ -144,7 +144,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 
 		for(int i = 0; i < itemTran.item.totalSubscribers; i++) {
-
+			log.info "paying out for $i ... ${itemTran.item.subscriberIds[i]}"
 			accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.WITHDRAW
 			accTran.amount = itemTran.discountShareAmount
