@@ -42,7 +42,7 @@ appengine {
 
 		logs {
 			severity = 1
-			outputFile = file('log.txt')
+			outputFile = file('prodserver-log.txt')
 		}
 
 		app { id = 'myseetu' }
@@ -54,7 +54,8 @@ dependencies {
 	def groovyVersion = '2.3.7'
 	def gaeVersion = '1.9.4'
 
-	compile 'org.jsoup:jsoup:1.8.1'
+	//compile 'org.jsoup:jsoup:1.8.1'
+	compile 'eu.bitwalker:UserAgentUtils:1.14'
 	compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
 	compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 	compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
@@ -63,13 +64,12 @@ dependencies {
 	compile "com.google.appengine:appengine-api-1.0-sdk:$gaeVersion",
 			"com.google.appengine:appengine-api-labs:$gaeVersion"
 
+	compile 'org.gaelyk:gaelyk:2.1.2'
+
 	// http://localhost:8181/_ah/gaelyk-datastore-viewer/browse
 	compile 'org.gaelyk:gaelyk-datastore-viewer:2.0'
-
 	// http://localhost:8181/_ah/gaelyk-console/
 	compile 'org.gaelyk:gaelyk-console:2.0'
-
-	compile 'org.gaelyk:gaelyk:2.1.2'
 
 	testCompile 'org.gaelyk:gaelyk-spock:0.4'
 	testCompile "com.google.appengine:appengine-api-stubs:$gaeVersion",

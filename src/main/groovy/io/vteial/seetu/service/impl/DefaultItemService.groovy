@@ -24,7 +24,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 	public void add(User sessionUser, Item item)
 	throws ModelAlreadyExistException {
 		log.info "Pre-" + item.toString()
-		
+
 		Account account = new Account()
 		account.name = "${item.name}-Commision"
 		account.aliasName = "Commision-${item.name}"
@@ -54,7 +54,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 		item.prePersist(sessionUser.id)
 		item.save()
-		
+
 		log.info "Post-" + item.toString()
 	}
 
@@ -64,7 +64,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 		itemTran.item = Item.get(itemTran.itemId)
 
-		this.preTransaction(sessionUser, itemTran)
+		this.aggregateSubscriptions(sessionUser, itemTran)
 
 		itemTran.computeDiscountAmount()
 		itemTran.computeDiscountShareAmount()
@@ -90,11 +90,15 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 		log.info "Post-" + itemTran.date.toString()
 
-		this.postTransaction(sessionUser, itemTran)
+		this.payCommisionAmount(sessionUser, itemTran)
+
+		this.payBidWinningAmount(sessionUser, itemTran)
+
+		this.payDiscountShares(sessionUser, itemTran)
 	}
 
-	private void preTransaction(User sessionUser, ItemTransaction itemTran) {
 
+	void aggregateSubscriptions(User sessionUser, ItemTransaction itemTran) {
 		float subscriptionAmount = itemTran.item.value / itemTran.item.totalSubscribers
 
 		for(int i = 0; i < itemTran.item.totalSubscribers; i++) {
@@ -115,8 +119,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 		}
 	}
 
-	private void postTransaction(User sessionUser, ItemTransaction itemTran) {
-
+	void payCommisionAmount(User sessionUser, ItemTransaction itemTran) {
 		AccountTransaction accTran = new AccountTransaction()
 		accTran.type = AccountTransactionType.WITHDRAW
 		accTran.amount = itemTran.commisionAmount
@@ -130,8 +133,10 @@ class DefaultItemService extends AbstractService implements ItemService {
 		accTran.description = 'nth commision for the month x'
 		accTran.accountId = itemTran.item.commisionAccountId
 		accountService.addTransaction(sessionUser, accTran)
+	}
 
-		accTran = new AccountTransaction()
+	void payBidWinningAmount(User sessionUser, ItemTransaction itemTran) {
+		AccountTransaction accTran = new AccountTransaction()
 		accTran.type = AccountTransactionType.WITHDRAW
 		accTran.amount = itemTran.winnerBidAmount
 		accTran.description = 'nth winner bid amount for the month x'
@@ -144,10 +149,11 @@ class DefaultItemService extends AbstractService implements ItemService {
 		accTran.description = 'nth winner bid amount for the month x'
 		accTran.accountId = itemTran.winnerAccountId
 		accountService.addTransaction(sessionUser, accTran)
+	}
 
-
+	void payDiscountShares(User sessionUser, ItemTransaction itemTran) {
 		for(int i = 0; i < itemTran.item.totalSubscribers; i++) {
-			accTran = new AccountTransaction()
+			AccountTransaction accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.WITHDRAW
 			accTran.amount = itemTran.discountShareAmount
 			accTran.description = 'nth discount share for the month x'
@@ -161,17 +167,5 @@ class DefaultItemService extends AbstractService implements ItemService {
 			accTran.accountId = itemTran.item.subscriberIds[i]
 			accountService.addTransaction(sessionUser, accTran)
 		}
-	}
-
-	void collectSubscription(User sessionUser, ItemTransaction itemTran) {
-	}
-
-	void payCommisionAmount(User sessionUser, ItemTransaction itemTran) {
-	}
-
-	void payBidWinningAmount(User sessionUser, ItemTransaction itemTran) {
-	}
-
-	void payDiscountShares(User sessionUser, ItemTransaction itemTran) {
 	}
 }

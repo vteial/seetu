@@ -1,6 +1,8 @@
 import com.google.apphosting.api.ApiProxy
 import com.google.apphosting.api.ApiProxy.Environment
 
+import eu.bitwalker.useragentutils.UserAgent
+
 println '''
 <html><head><title>Test</title><head><body><pre>
 '''
@@ -20,6 +22,9 @@ try {
 	
 	Environment env = ApiProxy.getCurrentEnvironment();
 	env.getAttributes().each { attr -> println "${attr.key} = ${attr.value}" }
+	
+	UserAgent userAgent = UserAgent.parseUserAgentString(headers['User-Agent'])
+	println userAgent
 }
 catch(Throwable t) {
 	t.printStackTrace(out)
