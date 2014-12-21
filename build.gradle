@@ -20,6 +20,13 @@ apply plugin: 'war'
 apply plugin: 'gaelyk'
 apply plugin: 'appengine-geb'
 
+File devLogFile = new File('devserver-log.txt')
+if(devLogFile.exists()) {
+	println devLogFile.name + ' -> '+ devLogFile.delete()
+	devLogFile = new File(devLogFile.name + '.lck')
+	println devLogFile.name + ' -> '+ devLogFile.delete()
+}
+
 def compatibilityVersion = 1.7
 sourceCompatibility = compatibilityVersion
 targetCompatibility = compatibilityVersion
@@ -27,6 +34,7 @@ targetCompatibility = compatibilityVersion
 appengine {
 	httpPort = 8181
 	disableUpdateCheck = true
+
 	appcfg {
 		email = 'vteial@gmail.com'
 		noCookies = true
