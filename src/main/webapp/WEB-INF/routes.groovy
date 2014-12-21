@@ -5,11 +5,11 @@ jabber 	presence,			to : '/receiveJabberpresence.groovy'
 jabber	subscription, 		to : '/receiveJabberSubscription.groovy'
 
 get 	'/favicon.ico',		redirect : '/assets/favicon.png'
-get     '/',				forward  : '/index.gtpl'
-get     '/index',			forward  : '/index.gtpl'
+get     '/',				redirect : '/index'
+get     '/index',			forward  : '/index.groovy'
 get 	'/info',			forward  : '/info.groovy'
 //get	'/json',			forward  : '/json.groovy'
-all 	'/_ah/warmup',		forward : '/ping.groovy'
+all 	'/_ah/warmup',		forward  : '/ping.groovy'
 
 // cron
 get 	'/cron/dailyBackup',			forward : '/cron/dailyBackup.groovy'
