@@ -80,15 +80,15 @@ app.config(function($routeProvider, $locationProvider) {
 		reloadOnSearch : false
 	});
 
-	$routeProvider.when('/transactionItems', {
-		templateUrl : 'modules/transactionItem/m.html',
-		controller : 'transactionItemController',
-		reloadOnSearch : false
-	});
-
 	$routeProvider.when('/items', {
 		templateUrl : 'modules/item/m.html',
 		controller : 'itemController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/itemTransactions', {
+		templateUrl : 'modules/itemTransaction/m.html',
+		controller : 'itemTransactionController',
 		reloadOnSearch : false
 	});
 
@@ -101,6 +101,12 @@ app.config(function($routeProvider, $locationProvider) {
 	$routeProvider.when('/accounts', {
 		templateUrl : 'modules/account/m.html',
 		controller : 'accountController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/accountTransactions', {
+		templateUrl : 'modules/accountTransaction/m.html',
+		controller : 'accountTransactionController',
 		reloadOnSearch : false
 	});
 

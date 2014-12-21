@@ -1,5 +1,5 @@
 function itemController($rootScope, $scope, $log) {
-	$rootScope.viewName = 'Items';
+	$rootScope.viewName = 'Chits';
 
 	$log.debug('itemController...');
 }

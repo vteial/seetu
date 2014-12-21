@@ -70,6 +70,42 @@ app.config(function($routeProvider, $locationProvider) {
 		reloadOnSearch : false
 	});
 
+	$routeProvider.when('/items', {
+		templateUrl : 'modules/item/d.html',
+		controller : 'itemController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/itemTransactions', {
+		templateUrl : 'modules/itemTransaction/d.html',
+		controller : 'itemTransactionController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/customers', {
+		templateUrl : 'modules/customer/d.html',
+		controller : 'customerController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/accounts', {
+		templateUrl : 'modules/account/d.html',
+		controller : 'accountController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/accountTransactions', {
+		templateUrl : 'modules/accountTransaction/d.html',
+		controller : 'accountTransactionController',
+		reloadOnSearch : false
+	});
+
+	$routeProvider.when('/users', {
+		templateUrl : 'modules/user/d.html',
+		controller : 'userController',
+		reloadOnSearch : false
+	});
+
 	$routeProvider.otherwise({
 		redirectTo : '/notFound'
 	});

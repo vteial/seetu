@@ -1,5 +1,5 @@
 function customerController($rootScope, $scope, $log) {
-	$rootScope.viewName = 'Customers';
+	$rootScope.viewName = 'Subscribers';
 
 	$log.debug('customerController...');
 }

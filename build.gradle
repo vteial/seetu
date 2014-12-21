@@ -20,7 +20,7 @@ apply plugin: 'war'
 apply plugin: 'gaelyk'
 apply plugin: 'appengine-geb'
 
-File devLogFile = new File('devserver-log.txt')
+File devLogFile = new File('logs/devserver-log.txt')
 if(devLogFile.exists()) {
 	println devLogFile.name + ' -> '+ devLogFile.delete()
 	devLogFile = new File(devLogFile.name + '.lck')
