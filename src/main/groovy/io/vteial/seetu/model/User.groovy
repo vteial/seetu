@@ -1,12 +1,14 @@
 package io.vteial.seetu.model;
 
 import groovy.transform.Canonical
+import groovy.transform.ToString
 import groovyx.gaelyk.datastore.Entity
 import groovyx.gaelyk.datastore.Ignore
 import groovyx.gaelyk.datastore.Key
 
 @Entity(unindexed=false)
 @Canonical
+@ToString(includeNames=true)
 public class User implements Serializable {
 
 	@Key
@@ -34,6 +36,8 @@ public class User implements Serializable {
 
 	String status
 
+	String roleId
+
 	long accountId
 
 	@Ignore
@@ -46,6 +50,19 @@ public class User implements Serializable {
 	Date createTime
 
 	Date updateTime
+
+	String toString() {
+		StringBuilder sb = new StringBuilder(User.class.getSimpleName())
+		sb.append('[')
+
+		sb.append("id:${this.id}, ")
+		sb.append("roleId:${this.roleId}")
+		sb.append("accountId:${this.accountId}, ")
+		sb.append("status:${this.status}")
+
+		sb.append(']')
+		return sb.toString()
+	}
 
 	void preUpdate(String updateBy) {
 		this.updateBy = updateBy

@@ -17,7 +17,7 @@ class DefaultAccountService extends AbstractService implements AccountService {
 	@Override
 	public void add(User sessionUser, Account account)
 	throws ModelAlreadyExistException {
-		log.info "Pre-Account[id = ${account.id}, name = ${account.name}, userId = ${account.userId}]"
+		log.info "Pre-" + account.toString()
 
 		account.user   = sessionUser
 		account.userId = sessionUser.id
@@ -27,17 +27,18 @@ class DefaultAccountService extends AbstractService implements AccountService {
 		account.prePersist(sessionUser.id)
 		account.save()
 
-		log.info "Post-Account[id = ${account.id}, name = ${account.name}, userId = ${account.userId}]"
+		log.info "Post-" + account.toString()
 	}
 
 	@Override
 	public void addTransaction(User sessionUser, AccountTransaction accountTran) throws InSufficientFundException {
-		log.info "Pre-AccoutTransaction[id=${accountTran.id}, amount=${accountTran.amount}, balance=${accountTran.accountId}, accountId=${accountTran.accountId}, userId=${accountTran.userId}]"
+		log.info "Pre-" + accountTran.toString()
 
 		Account account = Account.get(accountTran.accountId)
 
 		if (accountTran.type == AccountTransactionType.WITHDRAW && !account.hasSufficientBalance(accountTran.amount)) {
-			throw new InSufficientFundException(accountTran, account);
+			log.info "InSufficientFundException-" + account.toString()
+			throw new InSufficientFundException(account : account,  accountTran : accountTran)
 		}
 
 		if(accountTran.type == AccountTransactionType.WITHDRAW) {
@@ -68,6 +69,6 @@ class DefaultAccountService extends AbstractService implements AccountService {
 		accountTran.prePersist(sessionUser.id)
 		accountTran.save()
 
-		log.info "Post-AccoutTransaction[id=${accountTran.id}, amount=${accountTran.amount}, balance=${accountTran.accountId}, accountId=${accountTran.accountId}, userId=${accountTran.userId}]"
+		log.info "Post-" + accountTran.toString()
 	}
 }

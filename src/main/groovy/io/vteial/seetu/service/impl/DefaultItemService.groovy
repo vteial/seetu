@@ -23,7 +23,8 @@ class DefaultItemService extends AbstractService implements ItemService {
 	@Override
 	public void add(User sessionUser, Item item)
 	throws ModelAlreadyExistException {
-
+		log.info "Pre-" + item.toString()
+		
 		Account account = new Account()
 		account.name = "${item.name}-Commision"
 		account.aliasName = "Commision-${item.name}"
@@ -53,11 +54,13 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 		item.prePersist(sessionUser.id)
 		item.save()
+		
+		log.info "Post-" + item.toString()
 	}
 
 	@Override
 	public void addTransaction(User sessionUser, ItemTransaction itemTran) {
-		log.info 'Pre  : ' + itemTran.date.toString()
+		log.info "Pre-" + itemTran.date.toString()
 
 		itemTran.item = Item.get(itemTran.itemId)
 
@@ -85,7 +88,7 @@ class DefaultItemService extends AbstractService implements ItemService {
 		itemTran.prePersist(sessionUser.id)
 		itemTran.save()
 
-		log.info 'Post : ' + itemTran.toString()
+		log.info "Post-" + itemTran.date.toString()
 
 		this.postTransaction(sessionUser, itemTran)
 	}
@@ -144,7 +147,6 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 
 		for(int i = 0; i < itemTran.item.totalSubscribers; i++) {
-			log.info "paying out for $i ... ${itemTran.item.subscriberIds[i]}"
 			accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.WITHDRAW
 			accTran.amount = itemTran.discountShareAmount
@@ -159,5 +161,17 @@ class DefaultItemService extends AbstractService implements ItemService {
 			accTran.accountId = itemTran.item.subscriberIds[i]
 			accountService.addTransaction(sessionUser, accTran)
 		}
+	}
+
+	void collectSubscription(User sessionUser, ItemTransaction itemTran) {
+	}
+
+	void payCommisionAmount(User sessionUser, ItemTransaction itemTran) {
+	}
+
+	void payBidWinningAmount(User sessionUser, ItemTransaction itemTran) {
+	}
+
+	void payDiscountShares(User sessionUser, ItemTransaction itemTran) {
 	}
 }

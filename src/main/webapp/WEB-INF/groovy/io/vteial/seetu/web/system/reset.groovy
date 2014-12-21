@@ -1,25 +1,29 @@
-package io.vteial.seetu.web.init;
+package io.vteial.seetu.web.system;
 
+import groovy.time.TimeCategory
 import io.vteial.seetu.model.AccountTransaction
 import io.vteial.seetu.model.Customer
 import io.vteial.seetu.model.Item
 import io.vteial.seetu.model.ItemTransaction
+import io.vteial.seetu.model.Role
 import io.vteial.seetu.model.User
 import io.vteial.seetu.model.constants.AccountTransactionType
 import io.vteial.seetu.model.constants.UserStatus
-import io.vteial.seetu.util.Helper
 
 try {
 	println 'reset started...'
 
-	User sessionUser = new User()
-	User user = sessionUser
+	User user = new User()
 	user.id = 'vteial'
 	user.password = '1234'
 	user.emailId = 'vteial@gmail.com'
 	user.firstName = 'Eialarasu'
 	user.lastName = 'VT'
 	user.status = UserStatus.ACTIVE
+	user.roleId = Role.FOREMAN
+
+	// TODO : login as vteial
+	User sessionUser = user
 
 	userService.add(sessionUser, user)
 
@@ -41,7 +45,6 @@ try {
 	item.opearatorCommision = 5
 	item.totalSubscribers = 6
 	item.biddingShield = 40
-	item.biddingDayOfMonth = 5
 	item.biddingStartDate = new Date()
 
 	item.subscriberIds = subscriberAccountIds
@@ -50,30 +53,34 @@ try {
 
 	float subscriptionAmount = item.value / item.totalSubscribers
 
-	//List<Double> winningBidAmounts = [4600, 5100, 5300, 5600, 5800, 5900]
-	List<Double> winningBidAmounts = [4600]
+	List<Double> winningBidAmounts = [4600, 5100, 5300, 5600, 5800, 5900]
+	//List<Double> winningBidAmounts = [4600]
 
-	Date today = new Date()
-	today.clearTime()
+	Date biddingDate = new Date()
+	biddingDate[Calendar.DATE] = item.biddingStartDate[Calendar.DATE]
+	biddingDate[Calendar.MONTH] = item.biddingStartDate[Calendar.MONTH]
+	biddingDate[Calendar.YEAR] = item.biddingStartDate[Calendar.YEAR]
+	use(TimeCategory) {
+		for(int j = 0; j < winningBidAmounts.size(); j++) {
 
-	for(int j = 0; j < winningBidAmounts.size(); j++) {
+			for(int i = 0; i < item.totalSubscribers; i++) {
 
-		for(int i = 0; i < item.totalSubscribers; i++) {
-
-			AccountTransaction accTran = new AccountTransaction()
-			accTran.type = AccountTransactionType.DEPOSIT
-			accTran.amount = subscriptionAmount
-			accTran.description = 'nth subscription for the month x'
-			accTran.accountId = item.subscriberIds[i]
-			accountService.addTransaction(sessionUser, accTran)
+				AccountTransaction accTran = new AccountTransaction()
+				accTran.type = AccountTransactionType.DEPOSIT
+				accTran.amount = subscriptionAmount
+				accTran.description = 'nth subscription for the month x'
+				accTran.accountId = item.subscriberIds[i]
+				accountService.addTransaction(sessionUser, accTran)
+			}
+			ItemTransaction itemTran = new ItemTransaction()
+			itemTran.itemId = item.id
+			itemTran.winningBidAmount = winningBidAmounts[j]
+			itemTran.winnerAccountId = item.subscriberIds[j]
+			itemTran.nthBid = (j+1)
+			biddingDate += 1.month
+			itemTran.date = biddingDate
+			itemService.addTransaction(sessionUser, itemTran)
 		}
-		today += 30
-		ItemTransaction itemTran = new ItemTransaction()
-		itemTran.itemId = item.id
-		itemTran.winningBidAmount = winningBidAmounts[j]
-		itemTran.winnerAccountId = item.subscriberIds[j]
-		itemTran.date = today
-		itemService.addTransaction(sessionUser, itemTran)
 	}
 
 	println 'reset finished...'

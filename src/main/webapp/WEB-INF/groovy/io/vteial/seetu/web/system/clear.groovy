@@ -1,4 +1,4 @@
-package io.vteial.seetu.web.init;
+package io.vteial.seetu.web.system;
 
 import io.vteial.seetu.model.Account
 import io.vteial.seetu.model.AccountTransaction

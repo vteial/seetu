@@ -1,12 +1,14 @@
 package io.vteial.seetu.model
 
 import groovy.transform.Canonical
+import groovy.transform.ToString
 import groovyx.gaelyk.datastore.Entity
 import groovyx.gaelyk.datastore.Ignore
 import groovyx.gaelyk.datastore.Key
 
 @Entity(unindexed=false)
 @Canonical
+@ToString(includeNames=true)
 public class ItemTransaction implements Serializable {
 
 	static final String ID_KEY = "itemTranId"
@@ -25,6 +27,8 @@ public class ItemTransaction implements Serializable {
 	double discountShareAmount
 
 	String description
+
+	int nthBid
 
 	Date date
 
@@ -52,6 +56,28 @@ public class ItemTransaction implements Serializable {
 	Date createTime
 
 	Date updateTime
+
+	String toString() {
+		StringBuilder sb = new StringBuilder(User.class.getSimpleName())
+		sb.append('[')
+
+		sb.append("id:${this.id}, ")
+		sb.append("winningBidAmount:${this.winningBidAmount}, ")
+		sb.append("commisionAmount:${this.commisionAmount}, ")
+		sb.append("winnerBidAmount:${this.winnerBidAmount}, ")
+		sb.append("discountAmount:${this.discountAmount}, ")
+		sb.append("discountShareAmount:${this.discountShareAmount}, ")
+		sb.append("nthBid:${this.nthBid}, ")
+		sb.append("date:${this.date}, ")
+		sb.append("winnerAccountId:${this.winnerAccountId}, ")
+		sb.append("itemId:${this.itemId}, ")
+		sb.append("userId:${this.userId}")
+		sb.append("status:${this.status}, ")
+		sb.append("description:${this.description}, ")
+
+		sb.append(']')
+		return sb.toString()
+	}
 
 	void preUpdate(String updateBy) {
 		this.updateBy = updateBy

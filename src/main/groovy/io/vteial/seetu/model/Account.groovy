@@ -39,6 +39,22 @@ public class Account implements Serializable {
 
 	Date updateTime
 
+	String toString() {
+		StringBuilder sb = new StringBuilder(Account.class.getSimpleName())
+		sb.append('[')
+
+		sb.append("id:${this.id}, ")
+		sb.append("name:${this.name}, ")
+		sb.append("type:${this.type}, ")
+		sb.append("isMinus:${this.isMinus}, ")
+		sb.append("balance:${this.balance}, ")
+		sb.append("status:${this.status}, ")
+		sb.append("userId:${this.userId} ")
+
+		sb.append(']')
+		return sb.toString()
+	}
+
 	void preUpdate(String updateBy) {
 		this.updateBy = updateBy
 		this.updateTime = new Date()
