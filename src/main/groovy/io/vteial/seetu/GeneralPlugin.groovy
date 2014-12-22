@@ -5,9 +5,8 @@ import io.vteial.seetu.service.impl.DefaultAccountService
 import io.vteial.seetu.service.impl.DefaultAutoNumberService
 import io.vteial.seetu.service.impl.DefaultCustomerService
 import io.vteial.seetu.service.impl.DefaultItemService
+import io.vteial.seetu.service.impl.DefaultSessionService
 import io.vteial.seetu.service.impl.DefaultUserService
-
-import com.fasterxml.jackson.databind.ObjectMapper
 
 class GeneralPlugin extends PluginBaseScript {
 
@@ -15,9 +14,13 @@ class GeneralPlugin extends PluginBaseScript {
 	public Object run() {
 		log.info "Registering GeneralPlugin started..."
 
-		ObjectMapper jom = new ObjectMapper()
-
 		DefaultAutoNumberService anS = new DefaultAutoNumberService()
+
+		DefaultSessionService sS = new DefaultSessionService()
+		sS.autoNumberService = anS
+		sS.app = app
+		sS.localMode = localMode
+		sS.appUserService = users
 
 		DefaultAccountService aS = new DefaultAccountService()
 		aS.autoNumberService = anS
@@ -35,7 +38,9 @@ class GeneralPlugin extends PluginBaseScript {
 		iS.accountService = aS
 
 		binding {
-			jsonObjectMapper  = jom
+			jsonCategory      = JacksonCategory
+			jsonObjectMapper  = JacksonCategory.jsonObjectMapper
+			sessionService    = sS
 			autoNumberService = anS
 			accountService    = aS
 			userService       = uS

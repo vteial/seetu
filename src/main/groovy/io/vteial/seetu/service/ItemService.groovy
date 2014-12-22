@@ -5,7 +5,7 @@ import io.vteial.seetu.model.ItemTransaction
 import io.vteial.seetu.model.User
 import io.vteial.seetu.service.exceptions.ModelAlreadyExistException
 
-public interface ItemService {
+interface ItemService {
 
 	void add(User sessionUser, Item user) throws ModelAlreadyExistException
 

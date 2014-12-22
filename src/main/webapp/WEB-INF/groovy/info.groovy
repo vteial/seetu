@@ -11,18 +11,18 @@ println s.padRight(noOfChars, schar)
 
 try {
 	println "App Info = ${app}"
-	
+
 	println s.padRight(noOfChars, schar)
-	
+
 	println "Request URI = ${request.requestURI}"
 	println "Request URL = ${request.requestURL}"
 	headers.each { header -> println "${header.key} = ${header.value}" }
-	
+
 	println s.padRight(noOfChars, schar)
-	
+
 	Environment env = ApiProxy.getCurrentEnvironment();
 	env.getAttributes().each { attr -> println "${attr.key} = ${attr.value}" }
-	
+
 	UserAgent userAgent = UserAgent.parseUserAgentString(headers['User-Agent'])
 	println userAgent
 }

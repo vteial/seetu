@@ -17,12 +17,10 @@ function loginController($rootScope, $scope, $log, $location, $sessionStorage,
 		$scope.message = null;
 
 		sessionService.login($scope.user).then(function(response) {
-			$log.info(response);
-			if (response.message) {
+			if (response.type === 1) {
 				$scope.message = response.message;
 			} else {
 				$scope.user.password = '';
-				$rootScope.sessionUser = response;
 				$rootScope.isLoggedIn = true;
 				$rootScope.homeView = '/home';
 				var locPath = $sessionStorage.currentLocationPath;

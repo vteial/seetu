@@ -17,17 +17,11 @@ try {
 
 	Item item = Item.get(1)
 
-	itemService.add(sessionUser, item)
-
 	float subscriptionAmount = item.value / item.totalSubscribers
 
-	//List<Double> winningBidAmounts = [4600, 5100, 5300, 5600, 5800, 5900]
-	List<Double> winningBidAmounts = [4600]
+	List<Double> winningBidAmounts = [4600, 5100, 5300, 5600, 5800, 5900]
 
-	Date biddingDate = new Date()
-	biddingDate[Calendar.DATE] = item.biddingStartDate[Calendar.DATE]
-	biddingDate[Calendar.MONTH] = item.biddingStartDate[Calendar.MONTH]
-	biddingDate[Calendar.YEAR] = item.biddingStartDate[Calendar.YEAR]
+	Date auctionDate = item.auctionDate
 	use(TimeCategory) {
 		for(int j = 0; j < winningBidAmounts.size(); j++) {
 
@@ -36,7 +30,9 @@ try {
 				AccountTransaction accTran = new AccountTransaction()
 				accTran.type = AccountTransactionType.DEPOSIT
 				accTran.amount = subscriptionAmount
-				accTran.description = 'nth subscription for the month x'
+				String s = 'Credit subscription amount for '
+				s += String.format('%tb, %<tY', auctionDate)
+				accTran.description = s
 				accTran.accountId = item.subscriberIds[i]
 				accountService.addTransaction(sessionUser, accTran)
 			}
@@ -45,8 +41,8 @@ try {
 			itemTran.winningBidAmount = winningBidAmounts[j]
 			itemTran.winnerAccountId = item.subscriberIds[j]
 			itemTran.nthBid = (j+1)
-			biddingDate += 1.month
-			itemTran.date = biddingDate
+			auctionDate += 1.month
+			itemTran.date = auctionDate
 			itemService.addTransaction(sessionUser, itemTran)
 		}
 	}

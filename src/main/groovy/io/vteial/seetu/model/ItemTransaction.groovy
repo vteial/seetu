@@ -100,6 +100,8 @@ public class ItemTransaction implements Serializable {
 	void computeDiscountShareAmount() {
 		this.discountShareAmount = this.discountAmount / this.item.totalSubscribers
 		this.discountShareAmount = Math.round(this.discountShareAmount * 100) / 100
+		long temp = this.discountShareAmount
+		this.discountShareAmount = temp
 	}
 
 	void computeCommisionAmount() {

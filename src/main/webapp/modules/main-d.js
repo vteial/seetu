@@ -1,4 +1,8 @@
-function rootController($scope, $log, $window, $rootScope) {
+function rootController($scope, $log, $window, $rootScope, sessionService) {
+
+	$rootScope.sessionContext = sessionService.context;
+
+	sessionService.properties();
 
 	$scope.viewSource = function() {
 		var s = 'view-source:' + $rootScope.currentViewSrcUrl;

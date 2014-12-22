@@ -4,7 +4,7 @@ import io.vteial.seetu.model.Customer
 import io.vteial.seetu.model.User
 import io.vteial.seetu.service.exceptions.ModelAlreadyExistException
 
-public interface CustomerService {
+interface CustomerService {
 
 	void add(User sessionUser, Customer customer) throws ModelAlreadyExistException
 }

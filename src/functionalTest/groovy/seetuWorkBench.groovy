@@ -1,7 +1,5 @@
-import groovy.time.TimeCategory
-
-Date today = new Date()
-println today
-today[Calendar.DATE] = 5
-println today
-
+double x = 233.33
+println(x % 100)
+long y = x
+println y
+println(x - (x % 100))

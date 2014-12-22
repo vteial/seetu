@@ -25,3 +25,6 @@ try {
 catch(Throwable t) {
 	t.printStackTrace(out)
 }
+
+//response.contentType = 'application/json'
+//jsonObjectMapper.writeValue(out, responseDto)

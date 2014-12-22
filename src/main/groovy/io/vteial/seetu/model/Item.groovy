@@ -26,7 +26,9 @@ public class Item implements Serializable {
 
 	float biddingShield
 
-	Date biddingStartDate
+	Date startDate
+
+	Date auctionDate
 
 	String status
 
@@ -68,7 +70,8 @@ public class Item implements Serializable {
 		sb.append("opearatorCommision:${this.opearatorCommision}, ")
 		sb.append("totalSubscribers:${this.totalSubscribers}, ")
 		sb.append("biddingShield:${this.biddingShield}, ")
-		sb.append("biddingStartDate:${this.biddingStartDate}, ")
+		sb.append("tartDate:${this.startDate}, ")
+		sb.append("auctionDate:${this.auctionDate}, ")
 		sb.append("itemAccountId:${this.itemAccountId}, ")
 		sb.append("commisionAccountId:${this.commisionAccountId}, ")
 		sb.append("userId:${this.userId}, ")

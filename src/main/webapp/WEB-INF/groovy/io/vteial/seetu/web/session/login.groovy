@@ -2,22 +2,19 @@ package io.vteial.seetu.web.session
 
 import io.vteial.seetu.dto.ResponseDto
 import io.vteial.seetu.model.User
+import io.vteial.seetu.service.exceptions.InvalidCredentialException
 
-response.contentType = 'application/json'
+ResponseDto responseDto = new ResponseDto(type : 1, message : 'Invalid User Id or Password')
+request.responseDto = responseDto
 
-ResponseDto rm = new ResponseDto(message : 'Invalid User Id or Password')
-
-User userA = jsonObjectMapper.readValue(request.reader.text, User.class);
-User userE = User.get(userA.id)
-if(!userE) {
-	jsonObjectMapper.writeValue(out, rm)
-	return
+User userA = jsonCategory.parseJson(request, User.class)
+try {
+	io.vteial.seetu.model.User userE = sessionService.login(session, userA)
+	responseDto.data = sessionService.properties(session, user)
+	responseDto.type = 0
+	responseDto.message = 'Successfully logged in...'
 }
-if(app.env.name == 'Production' && userE.password != userA.password) {
-	jsonObjectMapper.writeValue(out, rm)
-	return
+catch(InvalidCredentialException e) {
 }
 
-session.user = userE
-
-jsonObjectMapper.writeValue(out, userE)
+jsonCategory.respondWithJson(response, responseDto)

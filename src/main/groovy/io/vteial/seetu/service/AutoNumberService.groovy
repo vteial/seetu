@@ -2,7 +2,7 @@ package io.vteial.seetu.service;
 
 import io.vteial.seetu.model.User
 
-public interface AutoNumberService {
+interface AutoNumberService {
 
 	long getNextNumber(String key)
 

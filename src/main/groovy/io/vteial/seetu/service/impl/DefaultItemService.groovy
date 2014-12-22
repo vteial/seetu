@@ -9,6 +9,7 @@ import io.vteial.seetu.model.User
 import io.vteial.seetu.model.constants.AccountStatus
 import io.vteial.seetu.model.constants.AccountTransactionType
 import io.vteial.seetu.model.constants.AccountType
+import io.vteial.seetu.model.constants.ItemStatus
 import io.vteial.seetu.model.constants.ItemTransactionStatus
 import io.vteial.seetu.service.AccountService
 import io.vteial.seetu.service.ItemService
@@ -90,80 +91,109 @@ class DefaultItemService extends AbstractService implements ItemService {
 
 		log.info "Post-" + itemTran.date.toString()
 
-		this.payCommisionAmount(sessionUser, itemTran)
+		this.onTransaction(sessionUser, itemTran)
 
 		this.payBidWinningAmount(sessionUser, itemTran)
+
+		this.detectCommisionAmount(sessionUser, itemTran)
 
 		this.payDiscountShares(sessionUser, itemTran)
 	}
 
+	void onTransaction(User sessionUser, ItemTransaction itemTran) {
+
+		if(itemTran.item.totalSubscribers == itemTran.nthBid) {
+			Item item = itemTran.item
+			item.status = ItemStatus.CLOSED
+			item.preUpdate(sessionUser.id)
+			item.save()
+		}
+	}
 
 	void aggregateSubscriptions(User sessionUser, ItemTransaction itemTran) {
 		float subscriptionAmount = itemTran.item.value / itemTran.item.totalSubscribers
 
 		for(int i = 0; i < itemTran.item.totalSubscribers; i++) {
-
 			AccountTransaction accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.WITHDRAW
 			accTran.amount = subscriptionAmount
-			accTran.description = 'nth subscription for the month x'
+			String s = 'Debit subscription amount for '
+			s += String.format('%tb, %<tY', itemTran.date)
+			accTran.description = s
 			accTran.accountId = itemTran.item.subscriberIds[i]
 			accountService.addTransaction(sessionUser, accTran)
 
 			accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.DEPOSIT
 			accTran.amount = subscriptionAmount
-			accTran.description = 'nth subscription for the month x'
+			s = 'Credit subscription amount for '
+			s += String.format('%tb, %<tY', itemTran.date)
+			accTran.description = s
 			accTran.accountId = itemTran.item.itemAccountId
 			accountService.addTransaction(sessionUser, accTran)
 		}
 	}
 
-	void payCommisionAmount(User sessionUser, ItemTransaction itemTran) {
-		AccountTransaction accTran = new AccountTransaction()
-		accTran.type = AccountTransactionType.WITHDRAW
-		accTran.amount = itemTran.commisionAmount
-		accTran.description = 'nth commision for the month x'
-		accTran.accountId = itemTran.item.itemAccountId
-		accountService.addTransaction(sessionUser, accTran)
-
-		accTran = new AccountTransaction()
-		accTran.type = AccountTransactionType.DEPOSIT
-		accTran.amount = itemTran.commisionAmount
-		accTran.description = 'nth commision for the month x'
-		accTran.accountId = itemTran.item.commisionAccountId
-		accountService.addTransaction(sessionUser, accTran)
-	}
-
 	void payBidWinningAmount(User sessionUser, ItemTransaction itemTran) {
+
 		AccountTransaction accTran = new AccountTransaction()
 		accTran.type = AccountTransactionType.WITHDRAW
-		accTran.amount = itemTran.winnerBidAmount
-		accTran.description = 'nth winner bid amount for the month x'
+		accTran.amount = itemTran.winningBidAmount
+		String s = 'Debit winning bid amount for '
+		s += String.format('%tb, %<tY', itemTran.date)
+		accTran.description = s
 		accTran.accountId = itemTran.item.itemAccountId
 		accountService.addTransaction(sessionUser, accTran)
 
 		accTran = new AccountTransaction()
 		accTran.type = AccountTransactionType.DEPOSIT
-		accTran.amount = itemTran.winnerBidAmount
-		accTran.description = 'nth winner bid amount for the month x'
+		accTran.amount = itemTran.winningBidAmount
+		s = 'Credit winning bid amount for '
+		s += String.format('%tb, %<tY', itemTran.date)
+		accTran.description = s
 		accTran.accountId = itemTran.winnerAccountId
 		accountService.addTransaction(sessionUser, accTran)
 	}
 
+	void detectCommisionAmount(User sessionUser, ItemTransaction itemTran) {
+
+		AccountTransaction accTran = new AccountTransaction()
+		accTran.type = AccountTransactionType.WITHDRAW
+		accTran.amount = itemTran.commisionAmount
+		String s = 'Debit commision amount for '
+		s += String.format('%tb, %<tY', itemTran.date)
+		accTran.description = s
+		accTran.accountId = itemTran.winnerAccountId
+		accountService.addTransaction(sessionUser, accTran)
+
+		accTran = new AccountTransaction()
+		accTran.type = AccountTransactionType.DEPOSIT
+		accTran.amount = itemTran.commisionAmount
+		s = 'Credit commision amount for '
+		s += String.format('%tb, %<tY', itemTran.date)
+		accTran.description = s
+		accTran.accountId = itemTran.item.commisionAccountId
+		accountService.addTransaction(sessionUser, accTran)
+	}
+
 	void payDiscountShares(User sessionUser, ItemTransaction itemTran) {
+
 		for(int i = 0; i < itemTran.item.totalSubscribers; i++) {
 			AccountTransaction accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.WITHDRAW
 			accTran.amount = itemTran.discountShareAmount
-			accTran.description = 'nth discount share for the month x'
+			String s = 'Debit discount share for '
+			s += String.format('%tb, %<tY', itemTran.date)
+			accTran.description = s
 			accTran.accountId = itemTran.item.itemAccountId
 			accountService.addTransaction(sessionUser, accTran)
 
 			accTran = new AccountTransaction()
 			accTran.type = AccountTransactionType.DEPOSIT
 			accTran.amount = itemTran.discountShareAmount
-			accTran.description = 'nth discount share for the month x'
+			s = 'Credit discount share for '
+			s += String.format('%tb, %<tY', itemTran.date)
+			accTran.description = s
 			accTran.accountId = itemTran.item.subscriberIds[i]
 			accountService.addTransaction(sessionUser, accTran)
 		}

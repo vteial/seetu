@@ -6,7 +6,7 @@ import io.vteial.seetu.model.User
 import io.vteial.seetu.service.exceptions.InSufficientFundException
 import io.vteial.seetu.service.exceptions.ModelAlreadyExistException
 
-public interface AccountService {
+interface AccountService {
 
 	void add(User sessionUser, Account account) throws ModelAlreadyExistException
 
