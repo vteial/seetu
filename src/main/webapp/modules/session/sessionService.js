@@ -14,7 +14,7 @@ function sessionService($log, $http, $q) {
 				_.assign(service.context, response.data);
 				deferred.resolve(response);
 			}
-			$log.info(response);
+			// $log.info(response);
 		}).error(function() {
 			deferred.reject("unable to authenticate...");
 		});
@@ -33,7 +33,7 @@ function sessionService($log, $http, $q) {
 				}
 				deferred.resolve(response);
 			}
-			$log.info(response);
+			// $log.info(response);
 		}).error(function() {
 			deferred.reject("unable to authenticate...");
 		});
@@ -50,7 +50,7 @@ function sessionService($log, $http, $q) {
 				_.assign(service.context, response.data);
 				deferred.resolve(response);
 			}
-			$log.info(response);
+			// $log.info(response);
 		}).error(function() {
 			deferred.reject("unable to logout...");
 		});

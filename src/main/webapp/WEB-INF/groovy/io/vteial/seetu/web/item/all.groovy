@@ -1,11 +1,11 @@
-package io.vteial.seetu.web.account
+package io.vteial.seetu.web.item
 
 import io.vteial.seetu.dto.ResponseDto
-import io.vteial.seetu.model.Account
+import io.vteial.seetu.model.Item
 
 ResponseDto responseDto = new ResponseDto()
 
-def accounts = Account.findAll()
-responseDto.data = accounts
+def items = Item.findAll()
+responseDto.data = items
 
 jsonCategory.respondWithJson(response, responseDto)
