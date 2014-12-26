@@ -1,4 +1,7 @@
-<br/>
+<form class="form-horizontal well well-sm" x-role="form">
+	<input class="form-control" type="text" placeholder="User Id"
+	          			x-ng-model="accountId">
+</form>
 
 <div class="panel panel-default">
 	<div class="panel-heading text-center">
@@ -32,7 +35,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr x-ng-repeat="item in searchResults.items">
+	<tr x-ng-repeat="item in searchResults.items | filter : { accountId : accountId}">
 		<td class="text-right" width="40">
 			{{$index+1}}
 		</td>
